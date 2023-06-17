@@ -8,7 +8,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link " href=""><%=%></a>
+                <a class="nav-link " href=""></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link <%=request.getParameter("page").equals("cerrar")? "active": "" %>" href="<%=request.getContextPath()%>/LoginServlet?a=logout">Cerrar Sesión</a>
