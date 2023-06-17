@@ -2,7 +2,7 @@ package Beans;
 
 public class Usuario {
 
-    private String idusuarios;
+    private int idusuarios;
     private String nombre;
     private String apellido;
     private int edad;
@@ -11,11 +11,11 @@ public class Usuario {
     private String especialidad;
     private int idEstatus;
 
-    public String getIdusuarios() {
+    public int getIdusuarios() {
         return idusuarios;
     }
 
-    public void setIdusuarios(String idusuarios) {
+    public void setIdusuarios(int idusuarios) {
         this.idusuarios = idusuarios;
     }
 

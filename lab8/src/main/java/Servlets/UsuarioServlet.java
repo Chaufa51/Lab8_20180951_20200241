@@ -17,10 +17,10 @@ public class UsuarioServlet extends HttpServlet {
         String action = request.getParameter("a") == null ? "listar" : request.getParameter("a");
 
         switch (action){
-            case "listar":
+            case "crear":
                 request.getRequestDispatcher("crearUsuario.jsp").forward(request,response);
                 break;
-            case "inicio":
+            case "listar":
                 request.getRequestDispatcher("listaViaje.jsp").forward(request,response);
                 break;
             case "nuevoViaje":
