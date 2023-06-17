@@ -3,7 +3,7 @@
 
 <html>
 <jsp:include page="/static/head.jsp">
-  <jsp:param name="title" value="Lista de Canciones"/>
+  <jsp:param name="title" value="Lista de Viajes"/>
 </jsp:include>
 <body>
 <div class='container'>
