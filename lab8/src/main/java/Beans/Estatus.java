@@ -1,16 +1,16 @@
 package Beans;
 
-public class Seguro {
+public class Estatus {
 
-    private int idseguros;
+    private int idEstatus;
     private String nombre;
 
-    public int getIdseguros() {
-        return idseguros;
+    public int getIdEstatus() {
+        return idEstatus;
     }
 
-    public void setIdseguros(int idseguros) {
-        this.idseguros = idseguros;
+    public void setIdEstatus(int idEstatus) {
+        this.idEstatus = idEstatus;
     }
 
     public String getNombre() {
