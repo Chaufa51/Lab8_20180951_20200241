@@ -2,10 +2,7 @@ package Daos;
 
 import Beans.Usuario;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UsuarioDaos extends BaseDao{
 
@@ -78,7 +75,28 @@ public class UsuarioDaos extends BaseDao{
 
 
 
-    //------------------------------             -------------------------------------------//
+    //------------------------------ Crear nuevo usuario-------------------------------------------//
+    public void nuevoUsuario(String nombre,String apellido,int edad, int codigoPucp, String correo,String especialidad){
+        String sql ="insert into usuarios(nombre,apellido,edad,codigoPucp,correo,especialidad,Estatus_idEstatus) values\n" +
+                "(?,?,?,?,?,?,\"1\")";
+
+        try(Connection connection = getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,nombre);
+            pstmt.setString(2,apellido);
+            pstmt.setInt(3,edad);
+            pstmt.setInt(4,codigoPucp);
+            pstmt.setString(5,correo);
+            pstmt.setString(6,especialidad);
+            pstmt.executeUpdate();
+
+            // aun no se como hacer para poder guardar la contraseña tambien
+        }
+        catch (SQLException ex){
+            throw new RuntimeException(ex);
+        }
+    }
 
 
 
