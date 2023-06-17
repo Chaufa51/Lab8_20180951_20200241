@@ -17,7 +17,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String action = req.getParameter("action") != null ? req.getParameter("action") : "login";
+        String action = req.getParameter("a") != null ? req.getParameter("a") : "login";
 
         if (action.equals("login")) {
 

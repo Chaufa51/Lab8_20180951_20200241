@@ -17,7 +17,7 @@ public class UsuarioDaos extends BaseDao{
 
         String sql = "SELECT * FROM usuarios u\n" +
                 "left  join credenciales c on c.idusuarios = u.idusuarios\n" +
-                " WHERE c.idusuarios = \"1\"";
+                " WHERE c.idusuarios = ?";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
