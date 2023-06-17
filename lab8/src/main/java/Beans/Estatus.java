@@ -6,6 +6,7 @@ public class Estatus {
     private String nombre;
 
     public int getIdEstatus() {
+
         return idEstatus;
     }
 
