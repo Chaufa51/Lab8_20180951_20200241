@@ -1,6 +1,7 @@
 package Daos;
 
 import Beans.Seguro;
+import Beans.Usuario;
 import Beans.Viaje;
 
 import java.sql.*;
@@ -51,4 +52,76 @@ public class ViajeDaos extends BaseDao{
 
         return listaViajes;
     }
+
+
+    //------------------------------ crear un nuevo viaje-------------------
+    public void nuevoViaje(Date fechaViaje, String ciudadOrigen, String ciudadDestino, int idSeguros,int cantidadBoletos,double costoTotal,int idUsuario){
+        String sql ="insert into viajes values \n" +
+                "((LPAD(FLOOR(RAND() * 100000000), 8, '0')),current_date(),?,?,?,?,?,?,\"1\",?)";
+
+        try(Connection connection = getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setDate(1,fechaViaje);
+            pstmt.setString(2,ciudadOrigen);
+            pstmt.setString(3,ciudadDestino);
+            pstmt.setInt(4,idSeguros);
+            pstmt.setInt(5,cantidadBoletos);
+            pstmt.setDouble(6,costoTotal);
+            pstmt.setInt(7,idUsuario);
+            pstmt.executeUpdate();
+
+        }
+        catch (SQLException ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
+    //---------------------------------- Buscador de viajes por ciudad de origen y por ciudad de destino ------
+
+
+    public ArrayList<Viaje> buscarViajePorCiudad(String name) {
+
+        ArrayList<Viaje> listaViaje = new ArrayList<>();
+
+        String sql = "select * from viajes\n" +
+                "where ciudadOrigen like ? or ciudadDestino like ?";
+
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, name + "%");
+            pstmt.setString(2, name + "%");
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+                    Viaje viaje = new Viaje();
+                    fetchviajeData(viaje, rs);
+
+                    listaViaje.add(viaje);
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return listaViaje;
+    }
+    //------------------- sirve para el buscador
+
+    private void fetchviajeData(Viaje viaje, ResultSet rs) throws SQLException {
+
+        viaje.setIdViaje(rs.getInt(1));
+        viaje.setFechaReserva(rs.getDate(2));
+        viaje.setFechaViaje(rs.getDate(3));
+        viaje.setCiudadOrigen(rs.getString(4));
+        viaje.setCiudadDestino(rs.getString(5));
+        viaje.setIdSeguros(rs.getInt(6));
+        viaje.setCantidadBoletos(rs.getInt(7));
+        viaje.setCostoTotal(rs.getDouble(8));
+        viaje.setHabilitado(rs.getInt(9));
+        viaje.setIdUsuario(rs.getInt(10));
+
+    }
+
 }
