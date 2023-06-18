@@ -49,6 +49,9 @@
                                     <input type="text" name="nombre" placeholder="Nombre" class="form-control" id="nombre" required>
                                     <div class="invalid-feedback">Por favor ingrese su usuario!</div>
                                 </div>
+                                <% if (request.getAttribute("errorNombre") != null) { %>
+                                <div class="text-danger mb-2">Ingrese su nombre y no debe empezar con números</div>
+                                <% } %>
 
                                 <div class="col-12">
                                     <input type="text" name="apellido" placeholder="Apellido" class="form-control" id="apellido" required>

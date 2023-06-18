@@ -1,8 +1,12 @@
 package Daos;
 
+import Beans.Seguro;
 import Beans.Usuario;
+import Beans.Viaje;
+import Dtos.RegistroUsuarioDto;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class UsuarioDaos extends BaseDao{
 
@@ -74,57 +78,36 @@ public class UsuarioDaos extends BaseDao{
     }
 
 
+    public ArrayList<Viaje> listarViaje(){
+        ArrayList<Viaje> lista = new ArrayList<>();
 
-    //------------------------------ Crear nuevo usuario-------------------------------------------//
-    public void nuevoUsuario(Usuario usuario){
-        String sql ="insert into usuarios (nombre,apellido,edad,codigoPucp,correo,especialidad,Estatus_idEstatus) values\n" +
-                "(?,?,?,?,?,?,\"1\")";
 
-        try(Connection connection = getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)){
+        String sql = "select * from viajes";
+        String url = "jdbc:mysql://localhost:3306/mydb";
+        try (Connection connection = this.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
 
-            pstmt.setString(1,usuario.getNombre());
-            pstmt.setString(2,usuario.getApellido());
-            pstmt.setInt(3,usuario.getEdad());
-            pstmt.setInt(4,usuario.getCodigo());
-            pstmt.setString(5,usuario.getCorreo());
-            pstmt.setString(6,usuario.getEspecialidad());
-            pstmt.executeUpdate();
+            while(resultSet.next()){
+                Viaje viaje = new Viaje();
+                viaje.setIdViaje(resultSet.getInt(1));
+                viaje.setFechaReserva(resultSet.getDate(2));
+                viaje.setFechaViaje(resultSet.getDate(3));
+                viaje.setCiudadOrigen(resultSet.getString(4));
+                viaje.setCiudadDestino(resultSet.getString(5));
 
-            // aun no se como hacer para poder guardar la contraseña tambien
+                Seguro seguro = new Seguro();
+                seguro.setIdseguros(resultSet.getInt(6));
+
+
+                lista.add(viaje);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        catch (SQLException ex){
-            throw new RuntimeException(ex);
-        }
+
+        return lista;
     }
-
-
-    //------------------------------ Crear nuevo con DTO-------------------------------------------//
-    public void nuevoUsuario(Usuario usuario){
-        String sql ="insert into usuarios (nombre,apellido,edad,codigoPucp,correo,especialidad,Estatus_idEstatus) values\n" +
-                "(?,?,?,?,?,?,\"1\")";
-
-        try(Connection connection = getConnection();
-            PreparedStatement pstmt = connection.prepareStatement(sql)){
-
-            pstmt.setString(1,usuario.getNombre());
-            pstmt.setString(2,usuario.getApellido());
-            pstmt.setInt(3,usuario.getEdad());
-            pstmt.setInt(4,usuario.getCodigo());
-            pstmt.setString(5,usuario.getCorreo());
-            pstmt.setString(6,usuario.getEspecialidad());
-            pstmt.executeUpdate();
-
-            // aun no se como hacer para poder guardar la contraseña tambien
-        }
-        catch (SQLException ex){
-            throw new RuntimeException(ex);
-        }
-    }
-
-
-
-
-
 
 }

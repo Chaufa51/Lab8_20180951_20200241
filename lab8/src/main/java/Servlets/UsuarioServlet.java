@@ -2,12 +2,15 @@ package Servlets;
 
 import Beans.Usuario;
 import Daos.UsuarioDaos;
+import Daos.UsuarioRegistroDaos;
+import Dtos.RegistroUsuarioDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.swing.*;
 import java.io.IOException;
 
 @WebServlet(name = "UsuarioServlet", value = "/UsuarioServlet")
@@ -39,14 +42,22 @@ public class UsuarioServlet extends HttpServlet {
 
         String action = request.getParameter("p") == null ? "crear" : request.getParameter("p");
 
-        UsuarioDaos usuarioDaos = new UsuarioDaos();
-
+        UsuarioRegistroDaos usuarioRegistroDaos = new UsuarioRegistroDaos();
         switch (action) {
             case "crear":
-                Usuario usuario = parseUsuario(request);
-                usuarioDaos.nuevoUsuario(usuario);
+                RegistroUsuarioDto registroUsuarioDto = parseUsuario(request);
 
-                response.sendRedirect(request.getContextPath() + "/UsuarioServlet");
+                boolean b = registroUsuarioDto.getPassword1().equals(registroUsuarioDto.getPassword2());
+                if(b){
+                    usuarioRegistroDaos.nuevoUsuario(registroUsuarioDto);
+                    response.sendRedirect(request.getContextPath() + "/UsuarioServlet");
+                }else{
+                    response.sendRedirect(request.getContextPath() + "/UsuarioServlet?a=crear");
+                }
+                break;
+
+
+            case "editar":
                 break;
         }
 
@@ -56,10 +67,10 @@ public class UsuarioServlet extends HttpServlet {
     /**
      * REGISTRAR USUARIO
      **/
-    public Usuario parseUsuario(HttpServletRequest request) {
+    public RegistroUsuarioDto parseUsuario(HttpServletRequest request) {
 
-        Usuario usuario = new Usuario();
-        /*String juegoId = request.getParameter("idJuegos") != null ? request.getParameter("idJuegos") : "";*/
+        RegistroUsuarioDto usuario = new RegistroUsuarioDto();
+        /*String idUsuario = request.getParameter("idUsuario") != null ? request.getParameter("idJuegos") : "";*/
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
         String edadStr = request.getParameter("edad");
@@ -77,9 +88,11 @@ public class UsuarioServlet extends HttpServlet {
             usuario.setNombre(nombre);
             usuario.setApellido(apellido);
             usuario.setEdad(edad);
-            usuario.setCodigo(codigoPucp);
-            usuario.setCorreo(correoPucp);
+            usuario.setCodigoPucp(codigoPucp);
+            usuario.setCorreoPucp(correoPucp);
             usuario.setEspecialidad(especialidad);
+            usuario.setPassword1(password);
+            usuario.setPassword2(password2);
 
 
             return usuario;

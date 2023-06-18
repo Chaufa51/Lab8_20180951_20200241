@@ -46,12 +46,15 @@
 
                             <form class="form-signin" method="POST" action="<%=request.getContextPath()%>/LoginServlet">
                                 <input type="text" name="inputEmail" class="form-control" placeholder="Correo" autofocus="">
+                                <br>
                                 <input type="password" name="inputPassword" class="form-control" placeholder="Contraseña">
+                                <br>
                                 <% if (request.getAttribute("error") != null) { %>
                                 <div class="text-danger mb-2">Error en usuario o contraseña</div>
                                 <% } %>
-                                <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
-                                <p class="small mb-0"><a href="<%=request.getContextPath()%>/UsuarioServlet?a=crear"> Soy nuevo y quiero registrarme</a></p>
+                                <button class="btn btn-lg btn-primary btn-block d-flex flex-column align-items-center justify-content-center" type="submit">Ingresar</button>
+                                <br>
+                                <p class="small mb-0 d-flex flex-column align-items-center justify-content-center"><a href="<%=request.getContextPath()%>/UsuarioServlet?a=crear"> Soy nuevo y quiero registrarme</a></p>
                             </form>
 
                         </div>

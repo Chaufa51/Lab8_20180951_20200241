@@ -48,7 +48,7 @@
             <input type="number" min="10" max="1000" class="form-control" name="precio" id="precio">
         </div>
 
-        <a class="btn btn-danger" href="<%=request.getContextPath()%>/UsuarioServlet">Cancelar viaje pipipi</a>
+        <a class="btn btn-danger" href="<%=request.getContextPath()%>/UsuarioServlet">Cancelar</a>
         <button type="submit" class="btn btn-primary">Aniadir viaje</button>
     </form>
 </div>
