@@ -55,20 +55,20 @@ public class ViajeDaos extends BaseDao{
 
 
     //------------------------------ crear un nuevo viaje-------------------
-    public void nuevoViaje(Date fechaViaje, String ciudadOrigen, String ciudadDestino, int idSeguros,int cantidadBoletos,double costoTotal,int idUsuario){
+    public void nuevoViaje(Viaje viaje){
         String sql ="insert into viajes values \n" +
-                "((LPAD(FLOOR(RAND() * 100000000), 8, '0')),current_date(),?,?,?,?,?,?,\"1\",?)";
+                "?,?,?,?,?,?,?,?,'1','1')";
 
         try(Connection connection = getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
-
-            pstmt.setDate(1,fechaViaje);
-            pstmt.setString(2,ciudadOrigen);
-            pstmt.setString(3,ciudadDestino);
-            pstmt.setInt(4,idSeguros);
-            pstmt.setInt(5,cantidadBoletos);
-            pstmt.setDouble(6,costoTotal);
-            pstmt.setInt(7,idUsuario);
+            pstmt.setInt(1,viaje.getIdViaje());
+            pstmt.setDate(2,viaje.getFechaReserva());
+            pstmt.setDate(3,viaje.getFechaViaje());
+            pstmt.setString(4,viaje.getCiudadOrigen());
+            pstmt.setString(5,viaje.getCiudadDestino());
+            pstmt.setInt(6,viaje.getIdSeguros());
+            pstmt.setInt(7,viaje.getCantidadBoletos());
+            pstmt.setDouble(8,viaje.getCostoTotal());
             pstmt.executeUpdate();
 
         }

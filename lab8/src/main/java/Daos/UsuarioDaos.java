@@ -78,11 +78,11 @@ public class UsuarioDaos extends BaseDao{
     }
 
 
-    public ArrayList<Viaje> listarViaje(){
+    public ArrayList<Viaje> listarViajeTodo(){
         ArrayList<Viaje> lista = new ArrayList<>();
 
 
-        String sql = "select * from viajes";
+        String sql = "SELECT * FROM viajes v inner join seguros s on v.seguros_idseguros = s.idseguros";
         String url = "jdbc:mysql://localhost:3306/mydb";
         try (Connection connection = this.getConnection();
              Statement stmt = connection.createStatement();
@@ -97,8 +97,12 @@ public class UsuarioDaos extends BaseDao{
                 viaje.setCiudadDestino(resultSet.getString(5));
 
                 Seguro seguro = new Seguro();
-                seguro.setIdseguros(resultSet.getInt(6));
+                seguro.setIdseguros(resultSet.getInt("s.idSeguros"));
+                seguro.setNombre(resultSet.getString("nombre"));
+                viaje.setSeguro(seguro);
 
+                viaje.setCantidadBoletos(resultSet.getInt(7));
+                viaje.setCostoTotal(resultSet.getInt(8));
 
                 lista.add(viaje);
             }
@@ -108,6 +112,33 @@ public class UsuarioDaos extends BaseDao{
         }
 
         return lista;
+    }
+
+    public ArrayList<Seguro> listarSeguro(){
+        ArrayList<Seguro> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM seguros";
+        String url = "jdbc:mysql://localhost:3306/mydb";
+
+
+        try (Connection connection = this.getConnection();
+             Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(sql)) {
+
+            while(resultSet.next()){
+                Seguro seguro = new Seguro();
+                seguro.setIdseguros(resultSet.getInt(1));
+                seguro.setNombre(resultSet.getString(2));
+
+                lista.add(seguro);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return lista;
+
     }
 
 }
