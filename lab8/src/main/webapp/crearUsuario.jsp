@@ -43,7 +43,7 @@
                                 <h5 class="card-title text-center pb-0 fs-4 text-light">Registro TeleViajero</h5>
                             </div>
 
-                            <form class="row g-3 needs-validation" id="registration-form" novalidate>
+                            <form class="row g-3 needs-validation" id="registration-form" novalidate method="post" action="<%=request.getContextPath()%>/UsuarioServlet?a=listar">
 
                                 <div class="col-12">
                                     <input type="text" name="nombre" placeholder="Nombre" class="form-control" id="nombre" required>
@@ -87,7 +87,7 @@
 
 
                                 <div class="col-12 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-outline-primary rounded-pill">Registrarme</button>
+                                    <button type="submit" class="btn btn-outline-primary rounded-pill">Registrarme</button>
                                 </div>
 
                             </form>

@@ -76,19 +76,19 @@ public class UsuarioDaos extends BaseDao{
 
 
     //------------------------------ Crear nuevo usuario-------------------------------------------//
-    public void nuevoUsuario(String nombre,String apellido,int edad, int codigoPucp, String correo,String especialidad){
-        String sql ="insert into usuarios(nombre,apellido,edad,codigoPucp,correo,especialidad,Estatus_idEstatus) values\n" +
+    public void nuevoUsuario(Usuario usuario){
+        String sql ="insert into usuarios (nombre,apellido,edad,codigoPucp,correo,especialidad,Estatus_idEstatus) values\n" +
                 "(?,?,?,?,?,?,\"1\")";
 
         try(Connection connection = getConnection();
             PreparedStatement pstmt = connection.prepareStatement(sql)){
 
-            pstmt.setString(1,nombre);
-            pstmt.setString(2,apellido);
-            pstmt.setInt(3,edad);
-            pstmt.setInt(4,codigoPucp);
-            pstmt.setString(5,correo);
-            pstmt.setString(6,especialidad);
+            pstmt.setString(1,usuario.getNombre());
+            pstmt.setString(2,usuario.getApellido());
+            pstmt.setInt(3,usuario.getEdad());
+            pstmt.setInt(4,usuario.getCodigo());
+            pstmt.setString(5,usuario.getCorreo());
+            pstmt.setString(6,usuario.getEspecialidad());
             pstmt.executeUpdate();
 
             // aun no se como hacer para poder guardar la contraseña tambien
@@ -99,7 +99,28 @@ public class UsuarioDaos extends BaseDao{
     }
 
 
+    //------------------------------ Crear nuevo con DTO-------------------------------------------//
+    public void nuevoUsuario(Usuario usuario){
+        String sql ="insert into usuarios (nombre,apellido,edad,codigoPucp,correo,especialidad,Estatus_idEstatus) values\n" +
+                "(?,?,?,?,?,?,\"1\")";
 
+        try(Connection connection = getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(sql)){
+
+            pstmt.setString(1,usuario.getNombre());
+            pstmt.setString(2,usuario.getApellido());
+            pstmt.setInt(3,usuario.getEdad());
+            pstmt.setInt(4,usuario.getCodigo());
+            pstmt.setString(5,usuario.getCorreo());
+            pstmt.setString(6,usuario.getEspecialidad());
+            pstmt.executeUpdate();
+
+            // aun no se como hacer para poder guardar la contraseña tambien
+        }
+        catch (SQLException ex){
+            throw new RuntimeException(ex);
+        }
+    }
 
 
 
